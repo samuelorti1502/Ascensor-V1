@@ -13,7 +13,12 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -38,6 +43,7 @@ public class FrmAscensor extends javax.swing.JFrame {
     public ArrayList<JToggleButton> controlList;
     public ArrayList<JLabel> elevatorList;
     public JToggleButton c;
+    private boolean seve = false;
 
     private ImageIcon Img;
     private Icon icono;
@@ -56,6 +62,7 @@ public class FrmAscensor extends javax.swing.JFrame {
         //mostrarPiso();
         GUI();
         elevator();
+        this.jTextField1.setVisible(false);
     }
 
     public void GUI() {
@@ -100,6 +107,7 @@ public class FrmAscensor extends javax.swing.JFrame {
             controlList.add(c);
 
             c.addActionListener(new presionar());
+            c.addMouseListener(new presionarBtn());
 
             mainPanel.add(c);
             //testElevator2 = new TestElevator2(c, jLabel1, controlList);
@@ -168,6 +176,7 @@ public class FrmAscensor extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         pnlElevator = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -226,9 +235,15 @@ public class FrmAscensor extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlElevator, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(96, 96, 96)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(96, 96, 96))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
@@ -241,7 +256,9 @@ public class FrmAscensor extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlElevator, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -286,7 +303,7 @@ public class FrmAscensor extends javax.swing.JFrame {
                 JToggleButton jc = (JToggleButton) controlList.get(jci);
                 String bs = jc.getText();
                 if (jc.getText().equals("BOSS")) {
-                    System.out.println("Hola jefe");
+                    //System.out.println("Hola jefe");
 
                     break;
                 } else {
@@ -309,25 +326,120 @@ public class FrmAscensor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public String bossPass(JToggleButton boton) {
+        return boton.getText();
+    }
+
     public class presionar implements ActionListener {
 
         public void actionPerformed(ActionEvent a) {
+
+            //FrmPassBoss frmPass = new FrmPassBoss();
+            //FrmAscensor frmAs = new FrmAscensor();
             for (int i = 0; i < 5; i++) {
 
                 for (int j = 0; j < 2; j++) {
                     int jci = j + (2 * i);
 
                     JToggleButton jc = (JToggleButton) controlList.get(jci);
-                    if (jc.isSelected()) {
+                    seleccionar(jc);
+                }
+            }
+        }
 
-                        if (jc.getText().equals("BOSS")) {
-                            System.out.println("Hola jefe");
-                            new FrmPassBoss().setVisible(true);
-                            break;
+        public void seleccionar(JToggleButton jc) {
+            if (jc.isSelected()) {
+                if (jc.getText().equals("BOSS")) {
+                    jc.setSelected(false);
+
+                    //frmPass.setVisible(true);
+                    FrmAscensor.jTextField1.setVisible(true);
+                    seve = true;
+
+                    jc.setSelected(false);
+                    jc.setText("Aceptar");
+                    //break;
+                } else {
+                    if (seve) {
+                        String a;
+                        //System.out.println(" " + jc.getText());
+                        //FrmPassBoss frmPass1 = new FrmPassBoss(jc.getText());
+                        //frmPass.recibeTexto(jc.getText());
+                        jc.setSelected(false);
+                        String text = FrmAscensor.jTextField1.getText();
+                        
+                        if(jc.getText().equals("Aceptar")){
+                            a = "";
+                        }else{
+                            a = jc.getText();
+                        }
+                        
+                        //System.out.println("a = " + a);
+                        
+                        FrmAscensor.jTextField1.setText(text + a);
+                        jc.setSelected(false);
+                        if (jc.getText().equals("Aceptar")) {
+                            FrmAscensor.jTextField1.setVisible(false);
+                            //System.out.println("Texto = " + FrmAscensor.jTextField1.getText());
+                            
+                            //Comparar contraseñas
+                            validar(FrmAscensor.jTextField1.getText());
+                            
+                            jc.setText("BOSS");
+                            FrmAscensor.jTextField1.setText("");
                         } else {
-                            System.out.println("No eres jefe");
+                            //jc.setText("BOSS");
                         }
                     }
+                }
+            }
+        }
+
+        public boolean validar(String contraseña) {
+            boolean isLogin = false;
+            try {
+                File myObj = new File("contraseña.txt");
+                Scanner myReader = new Scanner(myObj);
+
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    
+                    if(data.equals(contraseña)){
+                        isLogin = true;
+                        System.out.println("Contraseña correcta");
+                    }else{
+                        System.out.println("Contraseña incorrecta");
+                    }
+                    
+                }
+                myReader.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+
+            return isLogin;
+        }
+
+        /*public void keyPressed(java.awt.event.KeyEvent evt){
+            System.out.println("boton " + bossPass());
+        }*/
+    }
+
+    public class presionarBtn extends MouseAdapter {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            for (int i = 0; i < 5; i++) {
+
+                for (int j = 0; j < 2; j++) {
+                    int jci = j + (2 * i);
+                    JToggleButton jc = (JToggleButton) controlList.get(jci);
+                    if (jc.isSelected()) {
+                        //System.out.println(" " + jc.getText());
+                    }
+                    //FrmPassBoss frmPass = new FrmPassBoss();
+                    //frmPass.recibeTexto(jc.getText());
                 }
             }
         }
@@ -377,6 +489,7 @@ public class FrmAscensor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    public static javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblTexto;
     private javax.swing.JPanel pnlControl;
     private javax.swing.JPanel pnlElevator;

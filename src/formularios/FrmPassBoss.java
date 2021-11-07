@@ -14,8 +14,26 @@ public class FrmPassBoss extends javax.swing.JFrame {
     /**
      * Creates new form FrmPassBoss
      */
+    
+    private String texto;
+    
     public FrmPassBoss() {
         initComponents();
+        this.repaint();
+    }
+    
+    public FrmPassBoss(String texto){
+        this();
+        System.out.println("texto = " + texto);
+        
+    }
+    
+    public void recibeTexto(String texto){
+        this.repaint();
+        System.out.println("texto = " + texto);
+        this.jPasswordField1.setText(texto);
+        this.jLabel1.setText(texto);
+        this.repaint();
     }
 
     /**
@@ -105,7 +123,7 @@ public class FrmPassBoss extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmPassBoss().setVisible(true);
+                //new FrmPassBoss().setVisible(true);
             }
         });
     }
