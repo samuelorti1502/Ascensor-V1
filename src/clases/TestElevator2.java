@@ -18,7 +18,7 @@ public class TestElevator2 extends Thread {
     private int pisoActual;
     private int desPiso = 1;
     private final int maxPiso = 9;
-    private final int minPiso = 1;
+    private final int minPiso = 0;
     private boolean puertas = false;
     String[] txtlbl;
 
@@ -53,6 +53,8 @@ public class TestElevator2 extends Thread {
     }
 
     public void arriba(JLabel label) {
+        int pisoA = Integer.valueOf(txtlbl[1]);
+        pisoActual = pisoA;
         while (pisoActual++ < desPiso) {
             mostrar("Arriba..... Piso actual : " + pisoActual);
             label.setText("Nivel " + pisoActual);
@@ -78,13 +80,15 @@ public class TestElevator2 extends Thread {
         System.out.println("Nivel " + txtlbl[1]);
 
         Img = new ImageIcon(getClass().getResource("/images/close.png"));
-        icono = new ImageIcon(Img.getImage().getScaledInstance(80, 80,
+        icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
                 Image.SCALE_DEFAULT));
 
         int piso;
+        int lblAc = Integer.valueOf(txtlbl[1]);
+        String btn = boton.getText();
 
-        //Elevador elevador = new Elevador();
-        switch (boton.getText()) {
+        System.out.println("boton.getText() = " + btn);
+        switch (btn) {
             case "S":
                 piso = 0;
                 break;
@@ -92,15 +96,16 @@ public class TestElevator2 extends Thread {
                 piso = 1;
                 break;
             default:
-                piso = Integer.valueOf(boton.getText());
+                piso = Integer.valueOf(btn);
+                break;
         }
 
         setDesPiso(piso);
-        if (desPiso < minPiso || desPiso > maxPiso || desPiso == Integer.valueOf(txtlbl[1])) {
+        if (desPiso < minPiso || desPiso > maxPiso || desPiso == lblAc) {
             mostrar("Error");
             pisoDeseado(boton, lblPlanel, lblElevador, controlList, elevatorList);
         } else {
-            lblElevador = (JLabel) elevatorList.get(0);
+            lblElevador = (JLabel) elevatorList.get(lblAc);
             lblElevador.setIcon(icono);
             espera(500);
             mostrar("Cerrando puertas");
@@ -113,22 +118,22 @@ public class TestElevator2 extends Thread {
                 lblElevador.setIcon(icono);
                 espera(500);
             }*/
-            if (desPiso < Integer.valueOf(txtlbl[1])) {
+            if (desPiso < lblAc) {
                 abajo(lblPlanel);
-            } else if (desPiso > Integer.valueOf(txtlbl[1])) {
+            } else if (desPiso > lblAc) {
                 //label.setText(String.valueOf(arriba()));
                 arriba(lblPlanel);
             }
         }
         mostrar("Abriendo puertas");
-        System.out.println("piso actual label control " + Integer.valueOf(txtlbl[1]));
+        System.out.println("piso actual label control " + lblAc);
         System.out.println("piso Deseado " + desPiso);
 
         lblElevador = (JLabel) elevatorList.get(desPiso);
         /*lblElevador.setIcon(icono);
         espera(500);*/
         Img = new ImageIcon(getClass().getResource("/images/open.png"));
-        icono = new ImageIcon(Img.getImage().getScaledInstance(80, 80,
+        icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
                 Image.SCALE_DEFAULT));
 
         lblElevador.setIcon(icono);

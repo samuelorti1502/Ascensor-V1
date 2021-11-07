@@ -11,6 +11,8 @@ import clases.TestElevator2;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,26 +98,30 @@ public class FrmAscensor extends javax.swing.JFrame {
             c.setText(control[i]);
             c.setSelected(false);
             controlList.add(c);
+
+            c.addActionListener(new presionar());
+
             mainPanel.add(c);
             //testElevator2 = new TestElevator2(c, jLabel1, controlList);
         }
         // </editor-fold>  
 
         // <editor-fold defaultstate="collapsed" desc="Panel Elevador">
-        GridLayout gridE = new GridLayout(8, 1);
+        GridLayout gridE = new GridLayout(9, 1);
         gridE.setVgap(1);
         gridE.setVgap(2);
 
         elevatorPanel = new JPanel(gridE);
         pnlElevator.add(BorderLayout.CENTER, elevatorPanel);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
 
             lblElevator = new JLabel();
-            lblElevator.setSize(80, 80);
+            lblElevator.setSize(70, pnlElevator.getHeight());
+            lblElevator.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             lblElevator.setLocation(5, 5);
             Img = new ImageIcon(getClass().getResource("/images/open.png"));
-            icono = new ImageIcon(Img.getImage().getScaledInstance(80, 80,
+            icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
                     Image.SCALE_DEFAULT));
 
             lblElevator.setIcon(icono);
@@ -126,8 +132,7 @@ public class FrmAscensor extends javax.swing.JFrame {
 
         }
         // </editor-fold>  
-        
-         
+
     }
 
     public void mostrarPiso() {
@@ -135,11 +140,11 @@ public class FrmAscensor extends javax.swing.JFrame {
     }
 
     public void elevator() {
-        /*JLabel jc1 = (JLabel) elevatorList.get(0);
-        jc1.setVisible(false);*/
-        
-        for (int i = 1; i < 8; i++) {
-            
+        JToggleButton jt = (JToggleButton) controlList.get(9);
+        jt.setVisible(false);
+
+        for (int i = 1; i < 9; i++) {
+
             JLabel jc = (JLabel) elevatorList.get(i);
             jc.setVisible(false);
         }
@@ -187,7 +192,7 @@ public class FrmAscensor extends javax.swing.JFrame {
             .addGroup(pnlTituloLayout.createSequentialGroup()
                 .addGap(188, 188, 188)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         pnlTituloLayout.setVerticalGroup(
             pnlTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,6 +208,7 @@ public class FrmAscensor extends javax.swing.JFrame {
         jLabel1.setText("Nivel 0");
         jLabel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         jButton1.setText("↑↓");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,9 +226,9 @@ public class FrmAscensor extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlElevator, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(158, 158, 158)
+                .addGap(96, 96, 96)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
@@ -233,7 +239,7 @@ public class FrmAscensor extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlElevator, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlElevator, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,9 +248,8 @@ public class FrmAscensor extends javax.swing.JFrame {
                                 .addComponent(pnlControl, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(35, 35, 35)
-                                .addComponent(jButton1)))
-                        .addGap(0, 339, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -265,7 +270,7 @@ public class FrmAscensor extends javax.swing.JFrame {
                 .addComponent(pnlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(78, 78, 78))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pack();
@@ -273,28 +278,60 @@ public class FrmAscensor extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
 
             for (int j = 0; j < 2; j++) {
-                JToggleButton jc = (JToggleButton) controlList.get(j + (2 * i));
-                if (jc.isSelected()) {
-                    //testElevator.pisoDeseado(jc, jLabel1, controlList);
-                    testElevator2 = new TestElevator2(jc, jLabel1, lblElevator, controlList, elevatorList);
-                    
-                    //testElevator2.pisoDeseado(jc, jLabel1, lblElevator, controlList, elevatorList);
-                    
-                    testElevator2.start();
-                    testElevator2.interrupt();
+                int jci = j + (2 * i);
+
+                JToggleButton jc = (JToggleButton) controlList.get(jci);
+                String bs = jc.getText();
+                if (jc.getText().equals("BOSS")) {
+                    System.out.println("Hola jefe");
+
+                    break;
                 } else {
-                    //jc.setSelected(true);
-                    //testElevator2.interrupt();
+                    if (jc.isSelected()) {
+                        //testElevator.pisoDeseado(jc, jLabel1, controlList);
+                        testElevator2 = new TestElevator2(jc, jLabel1, lblElevator, controlList, elevatorList);
+
+                        //testElevator2.pisoDeseado(jc, jLabel1, lblElevator, controlList, elevatorList);
+                        testElevator2.start();
+                        testElevator2.interrupt();
+                    } else {
+                        //jc.setSelected(true);
+                        //testElevator2.interrupt();
+                    }
+                }
+            }
+            //testElevator2.interrupt();
+
+            //testElevator.mostrarPiso(1, jLabel1);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public class presionar implements ActionListener {
+
+        public void actionPerformed(ActionEvent a) {
+            for (int i = 0; i < 5; i++) {
+
+                for (int j = 0; j < 2; j++) {
+                    int jci = j + (2 * i);
+
+                    JToggleButton jc = (JToggleButton) controlList.get(jci);
+                    if (jc.isSelected()) {
+
+                        if (jc.getText().equals("BOSS")) {
+                            System.out.println("Hola jefe");
+                            new FrmPassBoss().setVisible(true);
+                            break;
+                        } else {
+                            System.out.println("No eres jefe");
+                        }
+                    }
                 }
             }
         }
-        //testElevator2.interrupt();
-        
-        //testElevator.mostrarPiso(1, jLabel1);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
     /**
      * @param args the command line arguments
@@ -313,13 +350,17 @@ public class FrmAscensor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmAscensor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAscensor.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmAscensor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAscensor.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmAscensor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAscensor.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmAscensor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAscensor.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
