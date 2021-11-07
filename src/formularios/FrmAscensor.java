@@ -302,12 +302,14 @@ public class FrmAscensor extends javax.swing.JFrame {
 
                 JToggleButton jc = (JToggleButton) controlList.get(jci);
                 String bs = jc.getText();
+                System.out.println(bs);
                 if (jc.getText().equals("BOSS")) {
                     //System.out.println("Hola jefe");
 
                     break;
                 } else {
                     if (jc.isSelected()) {
+                        System.out.println(jc.getText());
                         //testElevator.pisoDeseado(jc, jLabel1, controlList);
                         testElevator2 = new TestElevator2(jc, jLabel1, lblElevator, controlList, elevatorList);
 
@@ -342,56 +344,60 @@ public class FrmAscensor extends javax.swing.JFrame {
                     int jci = j + (2 * i);
 
                     JToggleButton jc = (JToggleButton) controlList.get(jci);
-                    seleccionar(jc);
+                    //seve = true;
+                    //seleccionar(jc);
+
                 }
             }
         }
 
         public void seleccionar(JToggleButton jc) {
             if (jc.isSelected()) {
+                System.out.println("Hola1");
                 if (jc.getText().equals("BOSS")) {
-                    jc.setSelected(false);
+                    System.out.println("Hola2");
 
+                    jc.setSelected(false);
                     //frmPass.setVisible(true);
                     FrmAscensor.jTextField1.setVisible(true);
                     seve = true;
 
                     jc.setSelected(false);
                     jc.setText("Aceptar");
-                    //break;
+
                 } else {
-                    if (seve) {
-                        String a;
-                        //System.out.println(" " + jc.getText());
-                        //FrmPassBoss frmPass1 = new FrmPassBoss(jc.getText());
-                        //frmPass.recibeTexto(jc.getText());
-                        jc.setSelected(false);
-                        String text = FrmAscensor.jTextField1.getText();
-                        
-                        if(jc.getText().equals("Aceptar")){
-                            a = "";
-                        }else{
-                            a = jc.getText();
+                    System.out.println("Hola2 Else");
+                    String a;
+                    jc.setSelected(false);
+                    String text = FrmAscensor.jTextField1.getText();
+
+                    if (jc.getText().equals("Aceptar")) {
+                        a = "";
+                    } else {
+                        a = jc.getText();
+                    }
+
+                    FrmAscensor.jTextField1.setText(text + a);
+                    jc.setSelected(false);
+                    if (jc.getText().equals("Aceptar")) {
+                        FrmAscensor.jTextField1.setVisible(false);
+
+                        //Comparar contraseñas
+                        if (validar(FrmAscensor.jTextField1.getText())) {
+                            System.out.println("Nivel boss");
+
+                            testElevator2 = new TestElevator2(jc, jLabel1, lblElevator, controlList, elevatorList);
+
+                            testElevator2.start();
+
                         }
-                        
-                        //System.out.println("a = " + a);
-                        
-                        FrmAscensor.jTextField1.setText(text + a);
-                        jc.setSelected(false);
-                        if (jc.getText().equals("Aceptar")) {
-                            FrmAscensor.jTextField1.setVisible(false);
-                            //System.out.println("Texto = " + FrmAscensor.jTextField1.getText());
-                            
-                            //Comparar contraseñas
-                            validar(FrmAscensor.jTextField1.getText());
-                            
-                            jc.setText("BOSS");
-                            FrmAscensor.jTextField1.setText("");
-                        } else {
-                            //jc.setText("BOSS");
-                        }
+
+                        jc.setText("BOSS");
+                        FrmAscensor.jTextField1.setText("");
                     }
                 }
+            } else if (jc.isSelected()) {
+                System.out.println("Hola1 Else");
             }
         }
 
@@ -403,14 +409,14 @@ public class FrmAscensor extends javax.swing.JFrame {
 
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
-                    
-                    if(data.equals(contraseña)){
+
+                    if (data.equals(contraseña)) {
                         isLogin = true;
                         System.out.println("Contraseña correcta");
-                    }else{
+                    } else {
                         System.out.println("Contraseña incorrecta");
                     }
-                    
+
                 }
                 myReader.close();
             } catch (FileNotFoundException e) {

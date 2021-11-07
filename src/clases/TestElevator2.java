@@ -37,7 +37,7 @@ public class TestElevator2 extends Thread {
         this.lblElevador = lblElevador;
         this.controlList = controlList;
         this.elevatorList = elevatorList;
-        
+
         txtlbl = lblPlanel.getText().split(" ");
     }
 
@@ -76,7 +76,7 @@ public class TestElevator2 extends Thread {
             ArrayList<JLabel> elevatorList) {
 
         System.out.println("Piso actual " + pisoActual);
-        
+
         System.out.println("Nivel " + txtlbl[1]);
 
         Img = new ImageIcon(getClass().getResource("/images/close.png"));
@@ -94,6 +94,9 @@ public class TestElevator2 extends Thread {
                 break;
             case "L":
                 piso = 1;
+                break;
+            case "BOSS":
+                piso = 8;
                 break;
             default:
                 piso = Integer.valueOf(btn);
