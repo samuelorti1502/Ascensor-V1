@@ -7,9 +7,11 @@ package formularios;
 
 import clases.DynamicTxt;
 import clases.TestElevator;
+import clases.TestElevator2;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -27,31 +29,41 @@ public class FrmAscensor extends javax.swing.JFrame {
     /**
      * Creates new form FrmAscensor
      */
-    
     private JLabel titulo;
+    private JLabel lblElevator;
     private JPanel mainPanel;
-    
+    private JPanel elevatorPanel;
+    public ArrayList<JToggleButton> controlList;
+    public ArrayList<JLabel> elevatorList;
+    public JToggleButton c;
+
     private ImageIcon Img;
     private Icon icono;
-    
-    private final String[] control = {"BOSS","7","6","5","4","3","2","L","S",""};
-    
+
+    private final String[] control = {"BOSS", "7", "6", "5", "4", "3", "2", "L", "S", ""};
+
     TestElevator testElevator = new TestElevator();
-    
+    TestElevator2 testElevator2;
+
     public FrmAscensor() {
         initComponents();
-        mostrarPiso();
+
+        controlList = new ArrayList<JToggleButton>();
+        elevatorList = new ArrayList<JLabel>();
+
+        //mostrarPiso();
         GUI();
-        
+        elevator();
     }
-    
-    public void GUI(){
-        
+
+    public void GUI() {
+
         // <editor-fold defaultstate="collapsed" desc="Escudo UMG">
         titulo = new JLabel();
         titulo.setSize(140, 140);
         titulo.setLocation(5, 5);
-        Img = new ImageIcon("./src/images/umg.png");
+        Img = new ImageIcon(getClass().getResource("/images/umg.png"));
+        //Img = new ImageIcon("./src/images/umg.png");
         icono = new ImageIcon(Img.getImage().getScaledInstance(140, 140,
                 Image.SCALE_DEFAULT));
 
@@ -59,7 +71,7 @@ public class FrmAscensor extends javax.swing.JFrame {
         titulo.setVisible(true);
         pnlTitulo.add(titulo, 0);
         // </editor-fold>  
-        
+
         // <editor-fold defaultstate="collapsed" desc="Texto dinamico">
         String mensaje = "BIENVENIDO AL SIMULADOR DE ASCENSOR UMG SDOM V1 ";
         DynamicTxt texto = null;
@@ -70,26 +82,68 @@ public class FrmAscensor extends javax.swing.JFrame {
         }
         texto.start();
         // </editor-fold>  
-        
+
         // <editor-fold defaultstate="collapsed" desc="Panel de Control">
         GridLayout grid = new GridLayout(5, 2);
         grid.setVgap(1);
         grid.setVgap(2);
-        
+
         mainPanel = new JPanel(grid);
         pnlControl.add(BorderLayout.CENTER, mainPanel);
-        
+
         for (int i = 0; i < 10; i++) {
-            JToggleButton c = new JToggleButton();
+            c = new JToggleButton();
             c.setText(control[i]);
             c.setSelected(false);
+            controlList.add(c);
             mainPanel.add(c);
+            //testElevator2 = new TestElevator2(c, jLabel1, controlList);
         }
         // </editor-fold>  
+
+        // <editor-fold defaultstate="collapsed" desc="Panel Elevador">
+        GridLayout gridE = new GridLayout(8, 1);
+        gridE.setVgap(1);
+        gridE.setVgap(2);
+
+        elevatorPanel = new JPanel(gridE);
+        pnlElevator.add(BorderLayout.CENTER, elevatorPanel);
+
+        for (int i = 0; i < 8; i++) {
+
+            lblElevator = new JLabel();
+            lblElevator.setSize(80, 80);
+            lblElevator.setLocation(5, 5);
+            Img = new ImageIcon(getClass().getResource("/images/open.png"));
+            icono = new ImageIcon(Img.getImage().getScaledInstance(80, 80,
+                    Image.SCALE_DEFAULT));
+
+            lblElevator.setIcon(icono);
+            lblElevator.setVisible(true);
+            lblElevator.setText(String.valueOf(i));
+            elevatorPanel.add(lblElevator, 0);
+            elevatorList.add(lblElevator);
+
+        }
+        // </editor-fold>  
+        
+         
     }
-    
-    public void mostrarPiso(){
+
+    public void mostrarPiso() {
         testElevator.mostrarPiso(1, jLabel1);
+    }
+
+    public void elevator() {
+        /*JLabel jc1 = (JLabel) elevatorList.get(0);
+        jc1.setVisible(false);*/
+        
+        for (int i = 1; i < 8; i++) {
+            
+            JLabel jc = (JLabel) elevatorList.get(i);
+            jc.setVisible(false);
+        }
+
     }
 
     /**
@@ -107,8 +161,8 @@ public class FrmAscensor extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         pnlControl = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        pnlElevator = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,41 +187,42 @@ public class FrmAscensor extends javax.swing.JFrame {
             .addGroup(pnlTituloLayout.createSequentialGroup()
                 .addGap(188, 188, 188)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlTituloLayout.setVerticalGroup(
             pnlTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTituloLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        pnlControl.setLayout(new java.awt.GridLayout());
+        pnlControl.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("Nivel 0");
         jLabel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jTextField1.setText("jTextField1");
-
-        jButton1.setText("jButton1");
+        jButton1.setText("↑↓");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        pnlElevator.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlElevator.setLayout(new java.awt.GridLayout(1, 0));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(pnlElevator, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
+                .addGap(158, 158, 158)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
@@ -177,17 +232,19 @@ public class FrmAscensor extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlElevator, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlControl, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
-                .addContainerGap(70, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(pnlControl, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(jButton1)))
+                        .addGap(0, 339, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -215,7 +272,28 @@ public class FrmAscensor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        testElevator.pisoDeseado(jTextField1);
+
+        for (int i = 0; i < 4; i++) {
+
+            for (int j = 0; j < 2; j++) {
+                JToggleButton jc = (JToggleButton) controlList.get(j + (2 * i));
+                if (jc.isSelected()) {
+                    //testElevator.pisoDeseado(jc, jLabel1, controlList);
+                    testElevator2 = new TestElevator2(jc, jLabel1, lblElevator, controlList, elevatorList);
+                    
+                    //testElevator2.pisoDeseado(jc, jLabel1, lblElevator, controlList, elevatorList);
+                    
+                    testElevator2.start();
+                    testElevator2.interrupt();
+                } else {
+                    //jc.setSelected(true);
+                    //testElevator2.interrupt();
+                }
+            }
+        }
+        //testElevator2.interrupt();
+        
+        //testElevator.mostrarPiso(1, jLabel1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -258,9 +336,9 @@ public class FrmAscensor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblTexto;
     private javax.swing.JPanel pnlControl;
+    private javax.swing.JPanel pnlElevator;
     private javax.swing.JPanel pnlTitulo;
     // End of variables declaration//GEN-END:variables
 }

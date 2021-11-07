@@ -22,14 +22,6 @@ public class DynamicTxt extends Thread {
     
     final Random r=new Random();
     
-    public DynamicTxt(JLabel lblCadena, JLabel lblMensaje)
-    {
-        this.cadena = "Sin cadena ingresada...";
-        this.sleep = 1000;
-        this.lblCadena = lblCadena;
-        this.lblMensaje = lblMensaje;
-    }
-    
     public DynamicTxt(String cadena, int sleep, JLabel lblCadena, JLabel lblMensaje) throws Exception
     {
         try
