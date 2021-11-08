@@ -6,6 +6,7 @@
 package formularios;
 
 import clases.DynamicTxt;
+import clases.SoundClass;
 import clases.TestElevator;
 import clases.TestElevator2;
 import java.awt.BorderLayout;
@@ -54,6 +55,12 @@ public class FrmAscensor extends javax.swing.JFrame {
     TestElevator2 testElevator2;
 
     public FrmAscensor() {
+
+        SoundClass soundClass = new SoundClass();
+        soundClass = new SoundClass();
+        soundClass.tiposonido(1);
+        soundClass.start();
+
         initComponents();
 
         controlList = new ArrayList<JToggleButton>();
@@ -345,7 +352,7 @@ public class FrmAscensor extends javax.swing.JFrame {
 
                     JToggleButton jc = (JToggleButton) controlList.get(jci);
                     //seve = true;
-                    //seleccionar(jc);
+                    seleccionar(jc);
 
                 }
             }
@@ -353,51 +360,57 @@ public class FrmAscensor extends javax.swing.JFrame {
 
         public void seleccionar(JToggleButton jc) {
             if (jc.isSelected()) {
-                System.out.println("Hola1");
                 if (jc.getText().equals("BOSS")) {
-                    System.out.println("Hola2");
-
                     jc.setSelected(false);
+
                     //frmPass.setVisible(true);
                     FrmAscensor.jTextField1.setVisible(true);
                     seve = true;
 
                     jc.setSelected(false);
                     jc.setText("Aceptar");
-
+                    //break;
                 } else {
-                    System.out.println("Hola2 Else");
-                    String a;
-                    jc.setSelected(false);
-                    String text = FrmAscensor.jTextField1.getText();
+                    if (seve) {
+                        String a;
+                        //System.out.println(" " + jc.getText());
+                        //FrmPassBoss frmPass1 = new FrmPassBoss(jc.getText());
+                        //frmPass.recibeTexto(jc.getText());
+                        jc.setSelected(false);
+                        String text = FrmAscensor.jTextField1.getText();
 
-                    if (jc.getText().equals("Aceptar")) {
-                        a = "";
-                    } else {
-                        a = jc.getText();
-                    }
-
-                    FrmAscensor.jTextField1.setText(text + a);
-                    jc.setSelected(false);
-                    if (jc.getText().equals("Aceptar")) {
-                        FrmAscensor.jTextField1.setVisible(false);
-
-                        //Comparar contraseñas
-                        if (validar(FrmAscensor.jTextField1.getText())) {
-                            System.out.println("Nivel boss");
-
-                            testElevator2 = new TestElevator2(jc, jLabel1, lblElevator, controlList, elevatorList);
-
-                            testElevator2.start();
-
+                        if (jc.getText().equals("Aceptar")) {
+                            a = "";
+                        } else {
+                            a = jc.getText();
                         }
 
-                        jc.setText("BOSS");
-                        FrmAscensor.jTextField1.setText("");
+                        //System.out.println("a = " + a);
+                        FrmAscensor.jTextField1.setText(text + a);
+                        jc.setSelected(false);
+                        if (jc.getText().equals("Aceptar")) {
+                            FrmAscensor.jTextField1.setVisible(false);
+                            //System.out.println("Texto = " + FrmAscensor.jTextField1.getText());
+
+                            //Comparar contraseñas
+                            if (validar(FrmAscensor.jTextField1.getText())) {
+                                System.out.println("Nivel boss");
+
+                                testElevator2 = new TestElevator2(jc, jLabel1, lblElevator, controlList, elevatorList);
+
+                                testElevator2.start();
+
+                            }
+
+                            jc.setText("BOSS");
+                            FrmAscensor.jTextField1.setText("");
+                        } else {
+                            //jc.setText("BOSS");
+                        }
                     }
                 }
-            } else if (jc.isSelected()) {
-                System.out.println("Hola1 Else");
+            } else {
+                //seleccionar(new JToggleButton());
             }
         }
 

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
 /**
@@ -30,6 +31,8 @@ public class TestElevator2 extends Thread {
 
     private ImageIcon Img;
     private Icon icono;
+
+    SoundClass soundsT;
 
     public TestElevator2(JToggleButton boton, JLabel lblPlanel, JLabel lblElevador, ArrayList<JToggleButton> controlList, ArrayList<JLabel> elevatorList) {
         this.boton = boton;
@@ -55,30 +58,84 @@ public class TestElevator2 extends Thread {
     public void arriba(JLabel label) {
         int pisoA = Integer.valueOf(txtlbl[1]);
         pisoActual = pisoA;
+
+        Img = new ImageIcon(getClass().getResource("/images/close.png"));
+        icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
+                Image.SCALE_DEFAULT));
+
         while (pisoActual++ < desPiso) {
             mostrar("Arriba..... Piso actual : " + pisoActual);
             label.setText("Nivel " + pisoActual);
-            espera(1000);
+
+            soundsT = new SoundClass();
+            soundsT.tiposonido(2);
+
+            lblElevador = (JLabel) elevatorList.get(pisoActual);
+            lblElevador.setIcon(icono);
+            lblElevador.setVisible(true);
+
+            try {
+                soundsT.start();
+            } catch (IllegalThreadStateException e) {
+                System.out.println("e = " + e.toString());
+            }
+
+            espera(2000);
+            if (pisoActual == desPiso) {
+                lblElevador.setVisible(true);
+            } else {
+                lblElevador.setVisible(false);
+            }
+
+            soundsT.interrupt();
+
+            //espera(1000);
         }
-        //return pisoActual;
+
+        //System.out.println("Has llegado a tu destino");
     }
 
     public void abajo(JLabel label) {
         int pisoA = Integer.valueOf(txtlbl[1]);
+
+        Img = new ImageIcon(getClass().getResource("/images/close.png"));
+        icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
+                Image.SCALE_DEFAULT));
+
         while (pisoA-- > desPiso) {
             mostrar("Abajo..... Piso actual : " + pisoA);
             label.setText("Nivel " + pisoA);
-            espera(1000);
+
+            soundsT = new SoundClass();
+            soundsT.tiposonido(2);
+
+            lblElevador = (JLabel) elevatorList.get(pisoA);
+            lblElevador.setIcon(icono);
+            lblElevador.setVisible(true);
+
+            try {
+                soundsT.start();
+            } catch (IllegalThreadStateException e) {
+                System.out.println("e = " + e.toString());
+            }
+
+            espera(2000);
+
+            if (pisoA == desPiso) {
+                lblElevador.setVisible(true);
+            } else {
+                lblElevador.setVisible(false);
+            }
+
+            soundsT.interrupt();
         }
     }
 
     public void pisoDeseado(JToggleButton boton, JLabel lblPlanel, JLabel lblElevador, ArrayList<JToggleButton> controlList,
             ArrayList<JLabel> elevatorList) {
 
-        System.out.println("Piso actual " + pisoActual);
-
-        System.out.println("Nivel " + txtlbl[1]);
-
+        //System.out.println("Piso actual " + pisoActual);
+        //System.out.println("Nivel " + txtlbl[1]);
         Img = new ImageIcon(getClass().getResource("/images/close.png"));
         icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
                 Image.SCALE_DEFAULT));
@@ -110,10 +167,19 @@ public class TestElevator2 extends Thread {
         } else {
             lblElevador = (JLabel) elevatorList.get(lblAc);
             lblElevador.setIcon(icono);
-            espera(500);
+
+            try {
+                soundsT = new SoundClass();
+                soundsT.tiposonido(0);
+                soundsT.start();
+                //espera(2000);
+            } catch (IllegalThreadStateException e) {
+                System.out.println("e = " + e.toString());
+            }
+
+            espera(2000);
             mostrar("Cerrando puertas");
             lblElevador.setVisible(false);
-            //System.out.println("Puertas " + isPuertas());
             espera(1000);
 
             /*for (int i = 1; i < desPiso; i++) {
@@ -123,14 +189,37 @@ public class TestElevator2 extends Thread {
             }*/
             if (desPiso < lblAc) {
                 abajo(lblPlanel);
+
+                soundsT = new SoundClass();
+                soundsT.tiposonido(0);
+
+                try {
+                    soundsT.start();
+                    espera(2000);
+                } catch (IllegalThreadStateException e) {
+                    System.out.println("e = " + e.toString());
+                }
+
             } else if (desPiso > lblAc) {
                 //label.setText(String.valueOf(arriba()));
+
                 arriba(lblPlanel);
+                soundsT = new SoundClass();
+                soundsT.tiposonido(0);
+
+                try {
+                    soundsT.start();
+                    espera(2000);
+                } catch (IllegalThreadStateException e) {
+                    System.out.println("e = " + e.toString());
+                }
+
+                //lblElevador.setVisible(true);
             }
         }
         mostrar("Abriendo puertas");
-        System.out.println("piso actual label control " + lblAc);
-        System.out.println("piso Deseado " + desPiso);
+        /*System.out.println("piso actual label control " + lblAc);
+        System.out.println("piso Deseado " + desPiso);*/
 
         lblElevador = (JLabel) elevatorList.get(desPiso);
         /*lblElevador.setIcon(icono);
@@ -140,11 +229,11 @@ public class TestElevator2 extends Thread {
                 Image.SCALE_DEFAULT));
 
         lblElevador.setIcon(icono);
-        espera(1000);
+        //espera(1000);
 
         lblElevador.setVisible(true);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
 
             for (int j = 0; j < 2; j++) {
                 JToggleButton jc = (JToggleButton) controlList.get(j + (2 * i));
@@ -221,7 +310,7 @@ public class TestElevator2 extends Thread {
         try {
             pisoDeseado(this.boton, this.lblPlanel, this.lblElevador, this.controlList, this.elevatorList);
         } catch (Exception ex) {
-            Logger.getLogger(DynamicTxt.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestElevator2.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
