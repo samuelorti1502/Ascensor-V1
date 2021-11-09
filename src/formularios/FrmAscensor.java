@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -94,7 +95,8 @@ public class FrmAscensor extends javax.swing.JFrame {
         try {
             texto = new DynamicTxt(mensaje, 300, lblTexto, new JLabel());
         } catch (Exception ex) {
-            Logger.getLogger(FrmAscensor.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error");
+            Logger.getLogger(DynamicTxt.class.getName()).log(Level.SEVERE, null, ex);
         }
         texto.start();
         // </editor-fold>  
@@ -139,9 +141,9 @@ public class FrmAscensor extends javax.swing.JFrame {
             icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
                     Image.SCALE_DEFAULT));
 
+            lblElevator.setText(String.valueOf(i));
             lblElevator.setIcon(icono);
             lblElevator.setVisible(true);
-            lblElevator.setText(String.valueOf(i));
             elevatorPanel.add(lblElevator, 0);
             elevatorList.add(lblElevator);
 
@@ -298,6 +300,7 @@ public class FrmAscensor extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -309,10 +312,16 @@ public class FrmAscensor extends javax.swing.JFrame {
 
                 JToggleButton jc = (JToggleButton) controlList.get(jci);
                 String bs = jc.getText();
-                System.out.println(bs);
-                if (jc.getText().equals("BOSS")) {
-                    //System.out.println("Hola jefe");
+                //System.out.println(bs);
+                if (jc.isSelected() && jc.getText().equals("7")) {
+                    System.out.println("Hola 7");
+                    
+                    testElevator2 = new TestElevator2(new JToggleButton("7"), jLabel1, lblElevator, controlList, elevatorList);
 
+                    //testElevator2.pisoDeseado(jc, jLabel1, lblElevator, controlList, elevatorList);
+                    testElevator2.start();
+                    testElevator2.interrupt();
+                    jc.setSelected(false);
                     break;
                 } else {
                     if (jc.isSelected()) {
@@ -417,8 +426,12 @@ public class FrmAscensor extends javax.swing.JFrame {
         public boolean validar(String contraseña) {
             boolean isLogin = false;
             try {
-                File myObj = new File("contraseña.txt");
-                Scanner myReader = new Scanner(myObj);
+                //File myObj = new File("contraseña.txt");
+
+                InputStream myObj2 = getClass().getResourceAsStream("/images/contraseña.txt");
+
+                //File myObj = new File(getClass().getResource("/images/umg.png"));
+                Scanner myReader = new Scanner(myObj2);
 
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
@@ -432,9 +445,10 @@ public class FrmAscensor extends javax.swing.JFrame {
 
                 }
                 myReader.close();
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
+                isLogin = false;
             }
 
             return isLogin;

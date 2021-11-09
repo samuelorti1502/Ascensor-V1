@@ -58,11 +58,14 @@ public class TestElevator2 extends Thread {
     public void arriba(JLabel label) {
         int pisoA = Integer.valueOf(txtlbl[1]);
         pisoActual = pisoA;
-
+        
+        lblElevador.setLocation(5, 5);
         Img = new ImageIcon(getClass().getResource("/images/close.png"));
         icono = new ImageIcon(Img.getImage().getScaledInstance(70, 70,
                 Image.SCALE_DEFAULT));
-
+        
+        lblElevador.setIcon(null);
+        
         while (pisoActual++ < desPiso) {
             mostrar("Arriba..... Piso actual : " + pisoActual);
             label.setText("Nivel " + pisoActual);
@@ -71,7 +74,9 @@ public class TestElevator2 extends Thread {
             soundsT.tiposonido(2);
 
             lblElevador = (JLabel) elevatorList.get(pisoActual);
+            
             lblElevador.setIcon(icono);
+            lblElevador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             lblElevador.setVisible(true);
 
             try {
@@ -133,7 +138,8 @@ public class TestElevator2 extends Thread {
 
     public void pisoDeseado(JToggleButton boton, JLabel lblPlanel, JLabel lblElevador, ArrayList<JToggleButton> controlList,
             ArrayList<JLabel> elevatorList) {
-
+        
+        lblElevador.setVisible(false);
         //System.out.println("Piso actual " + pisoActual);
         //System.out.println("Nivel " + txtlbl[1]);
         Img = new ImageIcon(getClass().getResource("/images/close.png"));
